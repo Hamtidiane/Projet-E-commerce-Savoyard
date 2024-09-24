@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Service pour le backend Laravel
+
+  laravel:
+    build:
+      context: ./Site-Les-tr-sors-savoyards
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    volumes:
+      - ./Site-Les-tr-sors-savoyards:/var/www/html
+    ports:
+      - "8000:80"  # Nginx écoute sur le port 80
+    networks:
+      - app-network
+    command: /bin/bash
+
+  # Service pour le frontend Vue.js
+  vuejs:
+    build:
+      context: ./LesTresorsSavoyardsVueJs
+      dockerfile: Dockerfile
+    container_name: vuejs_app
+    volumes:
+      - ./LesTresorsSavoyardsVueJs:/app
+    ports:
+      - "8080:80"  # Nginx écoute sur le port 80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
